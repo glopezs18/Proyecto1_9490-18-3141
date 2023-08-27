@@ -1,0 +1,16 @@
+{
+  "name": "proyecto1_9490-18-3141",
+  "version": "1.0.0",
+  "description": "Proyecto No.1 - En este proyecto de clase, los estudiantes tendrán la oportunidad de aplicar sus habilidades en desarrollo web y programación para crear un sistema de comercio electrónico utilizando APIs REST en Node.js.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^4.18.2",
+    "mongoose": "^7.4.5"
+  }
+}
