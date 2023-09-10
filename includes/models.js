@@ -28,7 +28,7 @@ const productoSchema = new mongoose.Schema({
 })
 
 const compraSchema = new mongoose.Schema({
-    cod_usuario: String,
+    id_usuario: String,
     nombre_usuario: String,
     datosCarrito: Object
 })

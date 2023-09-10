@@ -177,29 +177,12 @@ carrito.post('/compra', verifyToken, function (req, res) {
             usersModel.find({ correoElectronico: authData.user.correoElectronico }).then(function (data) {
                 const validate = (data[0].clave == authData.user.clave) ? true : false;
                 if (validate) {
-                    // res.json({
-                    //     method: "purchase",
-                    //     id_usuario: data[0]._id,
-                    //     nombre_usuario: data[0].nombres + " " + data[0].apellidos,
-                    //     productos: all_cart
-                    // });
+                    
                     const dataCartPurchase = {
                         id_usuario: data[0]._id,
                         nombre_usuario: data[0].nombres + " " + data[0].apellidos,
                         datosCarrito: all_cart
                     }
-                    // const dataCartPurchase = {
-                    //     nombre: "String",
-                    //     marca: "String",
-                    //     disponibilidad: 19,
-                    //     descuento: 12,
-                    //     precio: 11,
-                    //     precioDescuento: 11,
-                    //     imagen: "String",
-                    //     descripcion: "String",
-                    //     categorias: ["a", "s"],
-                    //     habilitado: true
-                    // }
 
                     purchaseModel.create(dataCartPurchase)
                         .then(() => {

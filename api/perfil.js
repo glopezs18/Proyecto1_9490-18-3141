@@ -23,8 +23,6 @@ perfil.get('/:dpi', verifyToken, function (req, res) {
             })
         }
     });
-
-    
 });
 
 // Perfil - Actualizar

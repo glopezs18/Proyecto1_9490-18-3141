@@ -8,13 +8,6 @@ productos.use(express.json());
 
 mongoose.connect('mongodb://127.0.0.1:27017/proyecto1_9490-18-3141')
 
-//Registro main
-productos.get("/", (req, res) => {
-    res.json({
-        message: "Registro de productos - Proyecto 1"
-    });
-});
-
 // Registro Producto
 productos.post('/', verifyToken, function (req, res) {
 
@@ -56,6 +49,26 @@ productos.post('/', verifyToken, function (req, res) {
         }
     });      
 });
+
+// Get data
+productos.get('/', verifyToken, function (req, res) {
+
+    jwt.verify(req.token, 'secretkey', (error, authData) => {
+        if (error) {
+            res.sendStatus(403);
+        } else {
+            productsModel.find({}).then(function(data){
+                data.push({token: req.token})
+                res.json(data)
+            }).catch(function(err) {
+                console.log(err)
+            })
+        }
+    });
+
+    
+});
+
 
 // Authorization: Bearer <token>
 function verifyToken(req, res, next) {    
