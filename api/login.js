@@ -13,20 +13,13 @@ mongoose.connect(process.env.MONGODB_URI, {useNewUrlParser: true, useUnifiedTopo
     .catch(err => console.log(`error: ${err}`))
 
 
+
+
 //Api Main
 login.get("/", (req, res) => {
     res.json({
         message: "Nodejs, JWT and MongoDB"
     });
-});
-
-login.get("/users", (req, res) => {
-    const result = usersModel.find({});
-    try {
-        res.json(result)
-    } catch(error) {
-        res.json(error)
-    }
 });
 
 // Login User
