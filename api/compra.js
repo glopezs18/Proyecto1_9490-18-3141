@@ -1,11 +1,12 @@
 const express = require('express');
 const mongoose = require('mongoose');
 const { purchaseModel } = require('../includes/models.js');
+require("dotenv").config();
 const jwt = require('jsonwebtoken');
 var compra = express.Router();
 
 compra.use(express.json());
-mongoose.connect('mongodb://127.0.0.1:27017/proyecto1_9490-18-3141')
+mongoose.createConnection(process.env.MONGODB_URI)
 
 // Mostrar compras realizadas
 compra.get('/', verifyToken, function (req, res) {

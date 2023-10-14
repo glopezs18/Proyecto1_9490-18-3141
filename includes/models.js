@@ -1,7 +1,7 @@
 var mongoose = require('mongoose');
 var Schema = mongoose.Schema;
 
-const usuariosSchema = new mongoose.Schema({
+const usuariosSchema = new Schema({
     nombres: String,
     apellidos: String,
     dpi: String,

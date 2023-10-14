@@ -2,11 +2,12 @@ const express = require('express');
 const mongoose = require('mongoose');
 const { usersModel } = require('../includes/models.js');
 const jwt = require('jsonwebtoken');
+require("dotenv").config();
 var perfil = express.Router();
 
 perfil.use(express.json());
 
-mongoose.connect('mongodb://127.0.0.1:27017/proyecto1_9490-18-3141')
+mongoose.createConnection(process.env.MONGODB_URI)
 
 
 // Perfil - Datos

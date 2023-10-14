@@ -2,11 +2,12 @@ const express = require('express');
 const mongoose = require('mongoose');
 const { productsModel } = require('../includes/models.js');
 const jwt = require('jsonwebtoken');
+require("dotenv").config();
 var producto = express.Router();
 
 producto.use(express.json());
 
-mongoose.connect('mongodb://127.0.0.1:27017/proyecto1_9490-18-3141')
+mongoose.createConnection(process.env.MONGODB_URI)
 
 // Producto - Datos
 producto.get('/:id', verifyToken, function (req, res) {
@@ -33,6 +34,7 @@ producto.put('/:id', verifyToken, function (req, res) {
         marca: req.body.marca,
         disponibilidad: req.body.disponibilidad,
         descuento: req.body.descuento,
+        precio: req.body.precioDescuento - req.body.descuento,
         precioDescuento: req.body.precioDescuento,
         imagen: req.body.imagen,
         descripcion: req.body.descripcion,

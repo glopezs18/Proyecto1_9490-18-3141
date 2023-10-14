@@ -2,11 +2,12 @@ const express = require('express');
 const mongoose = require('mongoose');
 const { productsModel } = require('../includes/models.js');
 const jwt = require('jsonwebtoken');
+require("dotenv").config();
 var productos = express.Router();
 
 productos.use(express.json());
 
-mongoose.connect('mongodb://127.0.0.1:27017/proyecto1_9490-18-3141')
+mongoose.createConnection(process.env.MONGODB_URI)
 
 // Registro Producto
 productos.post('/', verifyToken, function (req, res) {

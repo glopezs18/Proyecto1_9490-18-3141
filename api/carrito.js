@@ -1,6 +1,7 @@
 const express = require('express');
 const mongoose = require('mongoose');
 const { usersModel, productsModel, purchaseModel } = require('../includes/models.js');
+require("dotenv").config();
 var all_cart = require('../includes/items.js');
 const jwt = require('jsonwebtoken');
 const cart_products = [];
@@ -10,7 +11,7 @@ var carrito = express.Router();
 
 carrito.use(express.json());
 
-mongoose.connect('mongodb://127.0.0.1:27017/proyecto1_9490-18-3141')
+mongoose.createConnection(process.env.MONGODB_URI)
 
 
 

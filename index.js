@@ -2,6 +2,7 @@ const express = require('express');
 const app = express();
 const port = 3000;
 
+const test = require('./api/test');
 const registro = require('./api/registro');
 const login = require('./api/login');
 const perfil = require('./api/perfil');
@@ -17,6 +18,7 @@ app.use('/api/productos', productos);
 app.use('/api/producto', producto);
 app.use('/api/carrito', carrito);
 app.use('/api/compra', compra);
+app.use('/api/test', test);
 
 app.listen(port, () => {
   console.log(`Server is running on port ${port}`);
