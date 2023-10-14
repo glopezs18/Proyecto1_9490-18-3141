@@ -36,6 +36,8 @@
 ehthumbs.db
 Thumbs.db
 
+.env
+
 # Other files #
 ######################
 node_modules
