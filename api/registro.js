@@ -17,33 +17,36 @@ registro.get("/", (req, res) => {
 });
 
 // Registro Usuario
-registro.post('/:dpi', function (req, res) {
+registro.post('/', function (req, res) {
 
     const user = {
         nombres: req.body.nombres,
         apellidos: req.body.apellidos,
-        dpi: req.params.dpi,
+        dpi: req.body.dpi,
         fechaNacimiento: req.body.fechaNacimiento,
         clave: req.body.clave,
         validacionClave: req.body.validacionClave,
         nit: req.body.nit,
         numeroTelefonico: req.body.numeroTelefonico,
         correoElectronico: req.body.correoElectronico,
+        rol: req.body.rol,
+        user: req.body.user
     }
 
     usersModel.exists({ correoElectronico: user.correoElectronico }).then(function (data) {
         if (data) {
             res.json({
+                success: false,
                 data: data,
                 message: "Ya existe un usuario con este correo."
             })
         } else {
             usersModel.create(user)
-            .then(res.json({ message: "Usuario registrado con éxito." }))
-            .catch(err => res.json(err))
-        }        
+                .then(res.json({ success: true, message: "Usuario registrado con éxito." }))
+                .catch(err => res.json(err))
+        }
     }).catch(function (err) {
-        console.log(err)
+        res.json({success: false, message: err})
     })
 });
 

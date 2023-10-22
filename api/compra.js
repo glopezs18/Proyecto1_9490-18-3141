@@ -14,10 +14,9 @@ compra.get('/', verifyToken, function (req, res) {
         if (error) {
             res.sendStatus(403);
         } else {
-            purchaseModel.find({}).then(function(data){
-                data.push({token: req.token})
+            purchaseModel.find({}).then(function (data) {            
                 res.json(data)
-            }).catch(function(err) {
+            }).catch(function (err) {
                 console.log(err)
             })
         }
@@ -31,10 +30,10 @@ compra.get('/:id', verifyToken, function (req, res) {
         if (error) {
             res.sendStatus(403);
         } else {
-            purchaseModel.findById({_id: id}).then(function(data){                
-                res.json(data)
-            }).catch(function(err) {
-                console.log(err)
+            purchaseModel.findById({ _id: id }).then(function (data) {
+                res.json({ success: true, result: data })
+            }).catch(function (err) {
+                console.log({ success: true, message: err })
             })
         }
     });
@@ -48,9 +47,9 @@ compra.get('/user/:user_id', verifyToken, function (req, res) {
         if (error) {
             res.sendStatus(403);
         } else {
-            purchaseModel.find({id_usuario: user_id}).then(function(data){                
+            purchaseModel.find({ id_usuario: user_id }).then(function (data) {
                 res.json(data)
-            }).catch(function(err) {
+            }).catch(function (err) {
                 console.log(err)
             })
         }

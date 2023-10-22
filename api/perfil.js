@@ -17,29 +17,31 @@ perfil.get('/:dpi', verifyToken, function (req, res) {
         if (error) {
             res.sendStatus(403);
         } else {
-            usersModel.findOne({dpi: dpi}).then(function(data){                
-                res.json(data)
-            }).catch(function(err) {
-                console.log(err)
+            usersModel.findOne({ dpi: dpi }).then(function (data) {
+                res.json({ success: true, result: data })
+            }).catch(function (err) {
+                res.json({ succes: false, result: err })
             })
         }
     });
 });
 
 // Perfil - Actualizar
-perfil.put('/:dpi', verifyToken, function (req, res) {    
+perfil.put('/:dpi', verifyToken, function (req, res) {
     const dpi = req.params.dpi;
     const dataUser = {
         nombres: req.body.nombres,
         apellidos: req.body.apellidos,
         dpi: dpi,
         fechaNacimiento: req.body.fechaNacimiento,
-        clave: req.body.clave,
-        validacionClave: req.body.validacionClave,
+        // clave: req.body.clave,
+        // validacionClave: req.body.validacionClave,
         direccionEntrega: req.body.direccionEntrega,
         nit: req.body.nit,
         numeroTelefonico: req.body.numeroTelefonico,
-        correoElectronico: req.body.correoElectronico
+        correoElectronico: req.body.correoElectronico,
+        rol: req.body.rol,
+        user: req.body.user,
 
     };
     // res.json(dataUser)
@@ -47,35 +49,35 @@ perfil.put('/:dpi', verifyToken, function (req, res) {
         if (error) {
             res.sendStatus(403);
         } else {
-            usersModel.findOneAndUpdate({dpi: dpi}, dataUser)
-            .then(data => res.json({message: "Se actualizó el registro." , dpi: data.dpi}))
-            .catch(err => res.json(err))
+            usersModel.findOneAndUpdate({ dpi: dpi }, dataUser)
+                .then(data => res.json({ success: true, message: "Se actualizó el usuario con éxito.", dpi: data.dpi }))
+                .catch(err => res.json(err))
         }
-    });    
+    });
 });
 
 // Perfil - Borrar
-perfil.delete('/:dpi', verifyToken, function (req, res) {    
+perfil.delete('/:dpi', verifyToken, function (req, res) {
     const dpi = req.params.dpi;
 
     jwt.verify(req.token, 'secretkey', (error, authData) => {
         if (error) {
             res.sendStatus(403);
         } else {
-            usersModel.findOneAndDelete({dpi: dpi})
-            .then(res.json({message: "Usuario eliminado."}))
-            .catch(err => res.json(err))
+            usersModel.findOneAndDelete({ dpi: dpi })
+                .then(res.json({ message: "Usuario eliminado." }))
+                .catch(err => res.json(err))
         }
-    });     
+    });
 });
 
 // Authorization: Bearer <token>
-function verifyToken(req, res, next) {    
+function verifyToken(req, res, next) {
     const bearerHeader = req.headers['authorization'];
 
     if (typeof bearerHeader !== 'undefined') {
-        const bearerToken = bearerHeader.split(" ")[1];    
-        req.token = bearerToken;        
+        const bearerToken = bearerHeader.split(" ")[1];
+        req.token = bearerToken;
         next();
     } else {
         res.sendStatus(403);

@@ -175,30 +175,48 @@ carrito.post('/compra', verifyToken, function (req, res) {
             res.sendStatus(403);
         } else {
 
-            usersModel.find({ correoElectronico: authData.user.correoElectronico }).then(function (data) {
-                const validate = (data[0].clave == authData.user.clave) ? true : false;
-                if (validate) {
-                    
-                    const dataCartPurchase = {
-                        id_usuario: data[0]._id,
-                        nombre_usuario: data[0].nombres + " " + data[0].apellidos,
-                        datosCarrito: all_cart
-                    }
+            const dataCartPurchase = {
+                id_usuario: req.body.id_usuario,
+                nombre_usuario: req.body.nombre,
+                datosCarrito: req.body.datosCarrito,
+                total: req.body.total
+            }
+            
+            purchaseModel.create(dataCartPurchase)
+                .then((response) => {
+                    console.log(response);
+                    // datosCarrito.productos.map((element) => {
+                    //     productsModel.findByIdAndUpdate({ _id: element._id }, { habilitado: true })
+                    //         .then(res.json({ success: true, message: "Compra realizada con éxito.", info: dataCartPurchase }))
+                    //         .catch(err => res.json({success: false, message: "no se actualizó el producto"}))
+                    // })
+                    res.json({ message: "Compra realizada con éxito.", info: dataCartPurchase })
+                })
+                .catch(err => res.json({success: false, message: "No se registro la venta"}))
+            // usersModel.find({ correoElectronico: authData.user.correoElectronico }).then(function (data) {
+            //     const validate = (data[0].clave == authData.user.clave) ? true : false;
+            //     if (validate) {
 
-                    purchaseModel.create(dataCartPurchase)
-                        .then(() => {
-                            all_cart.productos.map((element) => {
-                                productsModel.findByIdAndUpdate({ _id: element._id }, {habilitado: true})
-                                    .then(res.json({ message: "Compra realizada con éxito.", info: dataCartPurchase }))
-                                    .catch(err => res.json(err))
-                            })
-                            // res.json({ message: "Compra realizada con éxito.", info: dataCartPurchase })
-                        })
-                        .catch(err => res.json(err))
-                }
-            }).catch(function (err) {
-                console.log(err)
-            })
+            //         const dataCartPurchase = {
+            //             id_usuario: data[0]._id,
+            //             nombre_usuario: data[0].nombres + " " + data[0].apellidos,
+            //             datosCarrito: all_cart
+            //         }
+
+            //         purchaseModel.create(dataCartPurchase)
+            //             .then(() => {
+            //                 all_cart.productos.map((element) => {
+            //                     productsModel.findByIdAndUpdate({ _id: element._id }, { habilitado: true })
+            //                         .then(res.json({ message: "Compra realizada con éxito.", info: dataCartPurchase }))
+            //                         .catch(err => res.json(err))
+            //                 })
+            //                 // res.json({ message: "Compra realizada con éxito.", info: dataCartPurchase })
+            //             })
+            //             .catch(err => res.json(err))
+            //     }
+            // }).catch(function (err) {
+            //     console.log(err)
+            // })
         }
     });
 });

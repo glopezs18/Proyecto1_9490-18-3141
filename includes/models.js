@@ -11,7 +11,9 @@ const usuariosSchema = new Schema({
     direccionEntrega: String,
     nit: String,
     numeroTelefonico: String,
-    correoElectronico: String
+    correoElectronico: String,
+    rol: String, 
+    user: String
 })
 
 const productoSchema = new mongoose.Schema({    
@@ -30,7 +32,8 @@ const productoSchema = new mongoose.Schema({
 const compraSchema = new mongoose.Schema({
     id_usuario: String,
     nombre_usuario: String,
-    datosCarrito: Object
+    datosCarrito: Object,
+    total: Number
 })
 
 const usersModel = mongoose.model("usuarios", usuariosSchema)

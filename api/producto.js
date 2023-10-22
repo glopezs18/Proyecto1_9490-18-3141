@@ -17,9 +17,9 @@ producto.get('/:id', verifyToken, function (req, res) {
             res.setHeader("code", 401)
             res.sendStatus(403);
         } else {
-            productsModel.findById({_id: id}).then(function(data){                
-                res.json(data)
-            }).catch(function(err) {
+            productsModel.findById({ _id: id }).then(function (data) {
+                res.json({ success: true, result: data })
+            }).catch(function (err) {
                 console.log(err)
             })
         }
@@ -27,35 +27,35 @@ producto.get('/:id', verifyToken, function (req, res) {
 });
 
 // Producto - Actualizar
-producto.put('/:id', verifyToken, function (req, res) {    
+producto.put('/:id', verifyToken, function (req, res) {
     const id = req.params.id;
     const dataProduct = {
         nombre: req.body.nombre,
         marca: req.body.marca,
         disponibilidad: req.body.disponibilidad,
         descuento: req.body.descuento,
-        precio: req.body.precioDescuento - req.body.descuento,
-        precioDescuento: req.body.precioDescuento,
+        precio: req.body.precio,
+        precioDescuento: (req.body.precio - req.body.descuento),
         imagen: req.body.imagen,
         descripcion: req.body.descripcion,
         categorias: req.body.categorias
 
     };
-    // res.json(dataUser)
+
     jwt.verify(req.token, 'secretkey', (error, authData) => {
         if (error) {
             res.setHeader("code", 401)
             res.sendStatus(403);
         } else {
-            productsModel.findByIdAndUpdate({_id: id}, dataProduct)
-            .then(data => res.json({message: "Se actualizó el registro." , id: data._id}))
-            .catch(err => res.json(err))
+            productsModel.findByIdAndUpdate({ _id: id }, dataProduct)
+                .then(data => res.json({ success: true, message: "Se actualizó el registro.", id: data._id }))
+                .catch(err => res.json(err))
         }
-    });    
+    });
 });
 
 // Producto - Borrar
-producto.delete('/:id', verifyToken, function (req, res) {    
+producto.delete('/:id', verifyToken, function (req, res) {
     const id = req.params.id;
 
     jwt.verify(req.token, 'secretkey', (error, authData) => {
@@ -63,20 +63,20 @@ producto.delete('/:id', verifyToken, function (req, res) {
             res.setHeader("code", 401)
             res.sendStatus(403);
         } else {
-            productsModel.findByIdAndDelete({_id: id})
-            .then(res.json({message: "Producto eliminado."}))
-            .catch(err => res.json(err))
+            productsModel.findByIdAndDelete({ _id: id })
+                .then(res.json({ success: true, message: "Producto eliminado." }))
+                .catch(err => res.json({ success: false, message: err }))
         }
-    });     
+    });
 });
 
 // Authorization: Bearer <token>
-function verifyToken(req, res, next) {    
+function verifyToken(req, res, next) {
     const bearerHeader = req.headers['authorization'];
 
     if (typeof bearerHeader !== 'undefined') {
-        const bearerToken = bearerHeader.split(" ")[1];    
-        req.token = bearerToken;        
+        const bearerToken = bearerHeader.split(" ")[1];
+        req.token = bearerToken;
         next();
     } else {
         res.sendStatus(403);
